@@ -5,7 +5,11 @@ local IgnorePlayers = {}
 local Ignored = {}
 
 function IgnorePlayers.IsIgnored(Player)
-    return Player and Ignored[Player.UserId] == true
+    if not Player then
+        return false
+    end
+
+    return Ignored[Player.UserId] == true
 end
 
 function IgnorePlayers.SetIgnored(Player, Value)
@@ -26,6 +30,7 @@ function IgnorePlayers.Toggle(Player)
     end
 
     local NewValue = not IgnorePlayers.IsIgnored(Player)
+
     IgnorePlayers.SetIgnored(Player, NewValue)
 
     return NewValue
@@ -43,11 +48,25 @@ function IgnorePlayers.GetAll()
     return Result
 end
 
+function IgnorePlayers.GetTable()
+    local Result = {}
+
+    for UserId, Value in pairs(Ignored) do
+        if Value then
+            Result[UserId] = true
+        end
+    end
+
+    return Result
+end
+
 function IgnorePlayers.GetCount()
     local Count = 0
 
-    for _ in pairs(Ignored) do
-        Count += 1
+    for _, Value in pairs(Ignored) do
+        if Value then
+            Count += 1
+        end
     end
 
     return Count
@@ -56,5 +75,11 @@ end
 function IgnorePlayers.Clear()
     table.clear(Ignored)
 end
+
+Players.PlayerRemoving:Connect(function(Player)
+    if Player then
+        Ignored[Player.UserId] = nil
+    end
+end)
 
 return IgnorePlayers
