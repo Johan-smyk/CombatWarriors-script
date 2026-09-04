@@ -16,22 +16,15 @@ local Helpers = require(Root.Utils.Helpers)
 local Modules = {
     Config = Config,
 
-    UI = {
-        Components = Components,
-        Localization = Localization,
-        Themes = Themes,
-        MainMenu = MainMenu
-    },
+    Localization = Localization,
+    Themes = Themes,
+    Components = Components,
 
-    Features = {
-        Aimbot = Aimbot,
-        FOV = FOV,
-        IgnorePlayers = IgnorePlayers
-    },
+    Aimbot = Aimbot,
+    FOV = FOV,
+    IgnorePlayers = IgnorePlayers,
 
-    Utils = {
-        Helpers = Helpers
-    }
+    Helpers = Helpers
 }
 
 MainMenu:Init(Modules)
